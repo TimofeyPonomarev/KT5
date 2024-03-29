@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Форма банковской карточки</title>
+<style>
+  
+  #card-preview {
+    width: 200px;
+    height: 120px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+  }
+  #card-preview img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<h2>Введите информацию о банковской карточке</h2>
+
+<form id="card-form">
+  <label for="bank">Название банка:</label><br>
+  <input type="text" id="bank" name="bank" required><br><br>
+  
+  <label for="payment-system">Тип платежной системы:</label><br>
+  <select id="payment-system" name="payment-system" required>
+    <option value="visa">VISA</option>
+    <option value="mastercard">Mastercard</option>
+    <option value="american-express">American Express</option>
+   
+  </select><br><br>
+  
+  <label for="card-number">Номер карты:</label><br>
+  <input type="text" id="card-number" name="card-number" pattern="[0-9]{16}" required><br><br>
+  
+  <label for="card-holder">Имя держателя карты:</label><br>
+  <input type="text" id="card-holder" name="card-holder" required><br><br>
+  
+  <label for="expiry-date">Месяц и год окончания карты:</label><br>
+  <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YYYY" pattern="(0[1-9]|1[0-2])\/[0-9]{4}" required><br><br>
+  
+  <input type="submit" value="Отправить">
+</form>
+
+<div id="card-preview">
+  <img id="bank-logo" src="img/credit-card.png" alt="Пример Карты">
+</div>
+
+<table id="card-table">
+  <thead>
+    <tr>
+      <th>Название банка</th>
+      <th>Тип платежной системы</th>
+      <th>Номер карты</th>
+      <th>Имя держателя карты</th>
+      <th>Месяц и год окончания карты</th>
+    </tr>
+  </thead>
+  <tbody>
+   
+  </tbody>
+</table>
+
+<script>
+  
+  document.getElementById('card-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    
+    var bank = document.getElementById('bank').value;
+    var paymentSystem = document.getElementById('payment-system').value;
+    var cardNumber = document.getElementById('card-number').value;
+    var cardHolder = document.getElementById('card-holder').value;
+    var expiryDate = document.getElementById('expiry-date').value;
+    
+    // Создаем новую строку для таблицы и заполняем ее данными из формы
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${bank}</td>
+      <td>${paymentSystem}</td>
+      <td>${cardNumber}</td>
+      <td>${cardHolder}</td>
+      <td>${expiryDate}</td>
+    `;
+    
+    
+    document.querySelector('#card-table tbody').appendChild(newRow);
+    
+  
+    document.getElementById('card-form').reset();
+    
+    
+    document.getElementById('bank-logo').src = '';
+    document.getElementById('payment-system-logo').src = '';
+  });
+  
+  
+  document.getElementById('bank').addEventListener('input', function() {
+    var bankLogo = document.getElementById('bank-logo');
+    bankLogo.src = 'path/to/' + this.value.toLowerCase() + '-logo.png'; // Замените на путь к вашим логотипам
+  });
+  
+  document.getElementById('payment-system').addEventListener('change', function() {
+    var paymentSystemLogo = document.getElementById('payment-system-logo');
+    paymentSystemLogo.src = 'path/to/' + this.value + '-logo.png'; // Замените на путь к вашим логотипам
+  });
+</script>
+
+</body>
+</html>
